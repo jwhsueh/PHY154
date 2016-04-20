@@ -1,0 +1,288 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# 1 Stars with Energy Production"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### (a) Derive the equation for the mass gradient $\\text{d}M_r/\\text{d}r$."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "$$\\text{d}M_r = 4\\pi r^2 \\rho \\text{d}r$$\n",
+    "    $$\\frac{\\text{d}M_r}{\\text{d}r} = 4\\pi r^2 \\rho$$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### (b) Write down the pressure gradient $\\text{d}P/\\text{d}r$ (assume hydrostatic equilibrium)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "$$\\frac{\\text{d}P}{\\text{d}r} = -\\frac{G M_r \\rho}{r^2}$$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "(c) Derive the equation for the luminosity gradient $\\text{d}L_r/\\text{d}r$ as a function of $\\epsilon$ where $\\epsilon$ is the energy production rate per unit mass of the gas. As we have learned previously, in a main sequence star, the dominant nuclear fusion process is the burning of hydrogen by the pp chains and the CNO cycle.\n",
+    "    $$\\text{d}L = \\epsilon \\rho 4\\pi r^2 \\text{d}r $$\n",
+    "    $$\\frac{\\text{d}L}{\\text{d}r} = 4\\pi r^2\\rho\\epsilon $$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### (d) Write down the temperature gradient $\\text{d}T/\\text{d}r$ assuming that the transport of energy is only due to radiation."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "$$\\frac{\\text{d}T}{\\text{d}r} = -\\frac{3}{4ac}\\frac{\\kappa\\rho}{T^3}\\frac{L}{4\\pi r^2}$$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### (e) Write down the four boundary conditions for the above equations."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "$$M(r=0) = 0  \\,,  M(r=R_{\\odot}) = M_{\\odot} = 2.0 \\times 10^{30} \\text{kg}$$\n",
+    "    $$P(r=0) =  2.1 \\times 10^{16} \\text{N}/\\text{m}^2$$\n",
+    "    $$L(r=0) = 0  \\,,  L(r=R_{\\odot}) = L_{\\odot} = 3.8 \\times 10^{26} \\text{W}$$\n",
+    "    $$T(r=0) =  1.571 \\times 10^7 \\text{K}$$\n",
+    "    (Assignment 2 provided all of these except for pressure, which can be easily calculated from the equation of state: $P = P_{gas} + P_{rad} = \\rho k_B T/\\overline{m} + a T^4 /3$)\n",
+    "    (Assuming a mean molecular weight of $\\mu \\sim 1 $ for the center of the Sun.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### (f) As you probably noticed, not all boundary conditions are at $r = 0$. What is your solution?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Thanks to the information provided in Assignment 2, I was able to determine all boundary conditions at $r = 0$."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "(g) We will solve these equations numerically. I found Python’s odeint useful. Here is an example of how to solve a system of differential equations. http://www.physics.nyu.edu/pine/pymanual/html/chap9/chap9_scipy.html#solving-odes. Copy/paste the example of predator/prey equation from http://sam-dolan.staff.shef.ac.uk/mas212/notebooks/ODE_Example.html into a notebook and play with it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Populating the interactive namespace from numpy and matplotlib\n"
+     ]
+    },
+    {
+     "ename": "NameError",
+     "evalue": "name 'rho' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[1;32m<ipython-input-2-cc1724b47952>\u001b[0m in \u001b[0;36m<module>\u001b[1;34m()\u001b[0m\n\u001b[0;32m     28\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m     29\u001b[0m \u001b[1;31m# PP-chain dominates in the Sun, so:\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m---> 30\u001b[1;33m \u001b[0mepsilon\u001b[0m \u001b[1;33m=\u001b[0m \u001b[1;33m(\u001b[0m\u001b[1;36m1.08e-12\u001b[0m \u001b[1;33m*\u001b[0m\u001b[0mu\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mW\u001b[0m\u001b[1;33m*\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mu\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mm\u001b[0m\u001b[1;33m**\u001b[0m\u001b[1;36m3\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m/\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mu\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mkg\u001b[0m\u001b[1;33m**\u001b[0m\u001b[1;36m2\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m*\u001b[0m\u001b[0mrho\u001b[0m\u001b[1;33m*\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;36m0.64\u001b[0m\u001b[1;33m**\u001b[0m\u001b[1;36m2\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m*\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mT\u001b[0m\u001b[1;33m/\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;36m10\u001b[0m\u001b[1;33m**\u001b[0m\u001b[1;36m6\u001b[0m \u001b[1;33m*\u001b[0m\u001b[0mu\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mK\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m**\u001b[0m\u001b[1;36m4\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m     31\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m     32\u001b[0m \u001b[1;32mdef\u001b[0m \u001b[0mdL_dr\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mL\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mr\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mT\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;31mNameError\u001b[0m: name 'rho' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "%pylab inline\n",
+    "import numpy as np\n",
+    "from astropy import constants as c\n",
+    "from astropy import units as u\n",
+    "from scipy.integrate import odeint as oi\n",
+    "\n",
+    "a = 5.5657e-16 *u.J/((u.m**3)*(u.K**4))    # Radiation constant\n",
+    "kappa = 0.04 *(u.m**2)/(u.kg)              # Opacity estimate\n",
+    "\n",
+    "rs = np.linspace(0.0 *u.m, c.R_sun, 1000)\n",
+    "\n",
+    "# def drho_dr(rho, r):        \n",
+    "#     return ...              # Calculated density profile?\n",
+    "# -or-                        # -or-\n",
+    "# rho = ... *u.kg/(u.m**3)    # Chosen density function?\n",
+    "\n",
+    "rho0 = 1.622e5 *u.kg/(u.m**3)\n",
+    "\n",
+    "\n",
+    "def dM_dr(M, r):\n",
+    "    return 4*np.pi*rho*r**2\n",
+    "\n",
+    "M0 = 0.0 *u.kg\n",
+    "\n",
+    "\n",
+    "def dP_dr(P, r):\n",
+    "    return - c.G*M*rho/(r**2)\n",
+    "\n",
+    "P0 = 2.1e16 *u.Pa\n",
+    "\n",
+    "\n",
+    "# PP-chain dominates in the Sun, so:\n",
+    "epsilon = (1.08e-12 *u.W*(u.m**3)/(u.kg**2))*rho*(0.64**2)*(T/(10**6 *u.K))**4\n",
+    "\n",
+    "def dL_dr(L, r, T):\n",
+    "    return 4*np.pi*rho*epsilon*r**2\n",
+    "\n",
+    "L0 = 0.0 *u.W\n",
+    "\n",
+    "\n",
+    "def dT_dr(T, r, L):\n",
+    "    return - 3*kappa*rho*L/(16*a*c.c*np.pi*(r**2)*(T**3))\n",
+    "\n",
+    "T0 = 1.571e7 *u.K\n",
+    "\n",
+    "\n",
+    "Ms = oi(dM_dr, M0, rs)\n",
+    "Ps = oi(dP_dr, P0, rs)\n",
+    "Ls = oi(dL_dr, L0, rs, Ts)\n",
+    "Ts = oi(dT_dr, T0, rs, Ls)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### (h) Now solve the above equations, and plot $M_r$, $P$, $L_r$, $T$ and $\\rho$ for the Sun. Good luck, it turns out it is very easy to make an unstable star!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "plt.plot(rs, Ms)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "plt.plot(rs, Ps)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "plt.plot(rs, Ls)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "plt.plot(rs, Ts)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "plt.plot(rs, rhos)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### (i) How do your results compare to Figure 1? Are they different and if so why?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The lack of logarithmic scaling in Figure 1 makes it very difficult to infer the behavior of pressure and density in particular at $r > 0.4\\text{R}_{\\odot}$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 2",
+   "language": "python",
+   "name": "python2"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 2
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython2",
+   "version": "2.7.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 0
+}
